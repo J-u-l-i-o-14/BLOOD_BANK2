@@ -1,4 +1,9 @@
+
 <?php
+// Campagnes de dons personnalisées
+Route::middleware(['auth'])->get('/campagne', [\App\Http\Controllers\CampaignController::class, 'index'])->name('campagne.index');
+Route::middleware(['auth'])->get('/campagne/create', [\App\Http\Controllers\CampaignController::class, 'create'])->name('campagne.create');
+Route::middleware(['auth'])->post('/campagne', [\App\Http\Controllers\CampaignController::class, 'store'])->name('campagne.store');
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
@@ -109,3 +114,6 @@ Route::get('/test-roles', function () {
 })->name('test.roles');
 
 require __DIR__.'/auth.php';
+
+// Routes du module dons
+require __DIR__.'/dons.php';

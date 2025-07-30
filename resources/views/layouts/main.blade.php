@@ -123,19 +123,20 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('campaigns.index') }}" 
-                                   class="flex items-center px-4 py-3 text-white rounded-lg transition-colors duration-200 {{ request()->routeIs('campaigns.*') ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10' }}">
+                                <a href="{{ route('campagne.index') }}" 
+                                   class="flex items-center px-4 py-3 text-white rounded-lg transition-colors duration-200 {{ request()->routeIs('campagne.index') ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10' }}">
                                     <i class="fas fa-bullhorn mr-3"></i>
-                                    <span>Campagnes</span>
+                                    <span>Campagne de dons</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{ route('donations.index') }}" 
-                                   class="flex items-center px-4 py-3 text-white rounded-lg transition-colors duration-200 {{ request()->routeIs('donations.*') ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10' }}">
+                                <a href="{{ route('dons.index') }}" 
+                                   class="flex items-center px-4 py-3 text-white rounded-lg transition-colors duration-200 {{ request()->routeIs('dons.*') ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10' }}">
                                     <i class="fas fa-heart mr-3"></i>
                                     <span>Dons</span>
                                 </a>
                             </li>
+                        
                             <li>
                                 <a href="{{ route('blood-bags.index') }}" 
                                    class="flex items-center px-4 py-3 text-white rounded-lg transition-colors duration-200 {{ request()->routeIs('blood-bags.*') ? 'bg-white bg-opacity-20' : 'hover:bg-white hover:bg-opacity-10' }}">

@@ -10,57 +10,40 @@ class CampaignController extends Controller
 {
     public function index(Request $request)
     {
-        $user = auth()->user();
-        $query = Campaign::with(['center']);
-
-        // Filtrer par centre pour admin/manager
-        if (in_array($user->role, ['admin', 'manager'])) {
-            $query->where('center_id', $user->center_id);
-        }
-
-        // Filtres
-        if ($request->filled('center_id')) {
-            $query->where('center_id', $request->center_id);
-        }
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where(function($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('location', 'like', "%{$search}%");
-            });
-        }
-
-        $campaigns = $query->latest()->paginate(15);
-        $centers = Center::all();
-
-        return view('campaigns.index', compact('campaigns', 'centers'));
+        // Récupérer toutes les campagnes pour la vue personnalisée
+        $campagnes = Campaign::all();
+        return view('campagne.index', compact('campagnes'));
     }
+
 
     public function create()
     {
-        $centers = Center::all();
-        return view('campaigns.create', compact('centers'));
+        return view('campagne.create');
     }
 
     public function store(Request $request)
     {
-        $user = auth()->user();
         $request->validate([
+            'title' => 'required|string|max:255',
             'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'required|string|max:255',
-            'date' => 'required|date|after:now',
-            'end_date' => 'nullable|date|after:date',
+            'description' => 'required|string',
+            'date' => 'required|date',
         ]);
-        $data = $request->all();
-        if (in_array($user->role, ['admin', 'manager'])) {
-            $data['center_id'] = $user->center_id;
+        $campagne = new Campaign();
+        $campagne->title = $request->title;
+        $campagne->name = $request->name;
+        $campagne->description = $request->description;
+        $campagne->date = $request->date;
+        // Remplir location avec le nom du centre connecté
+        $user = auth()->user();
+        if ($user && $user->center_id) {
+            $center = Center::find($user->center_id);
+            $campagne->location = $center ? $center->name : null;
+            $campagne->center_id = $user->center_id;
         }
-        Campaign::create($data);
+        $campagne->save();
 
-        return redirect()->route('campaigns.index')
-            ->with('success', 'Campagne créée avec succès.');
+        return redirect()->route('campagne.index')->with('success', 'Campagne créée avec succès.');
     }
 
     public function show(Campaign $campaign)
