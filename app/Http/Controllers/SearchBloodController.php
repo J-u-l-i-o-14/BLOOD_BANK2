@@ -20,6 +20,8 @@ class SearchBloodController extends Controller
         $regions = Region::all();
         $bloodTypes = BloodType::all();
         $results = collect();
+        // Récupérer les campagnes à venir (date >= aujourd'hui)
+        $campaigns = \App\Models\Campaign::upcoming()->orderBy('date')->take(6)->get();
 
         // Recherche avancée : plusieurs groupes sanguins et quantités
         $searchBloodTypes = collect($request->input('blood_types', []))
@@ -63,7 +65,7 @@ class SearchBloodController extends Controller
             $results = collect($matchingCenters);
         }
 
-        return view('welcome', compact('regions', 'bloodTypes', 'results'));
+        return view('welcome', compact('regions', 'bloodTypes', 'results', 'campaigns'));
     }
 
     public function searchAjax(Request $request)

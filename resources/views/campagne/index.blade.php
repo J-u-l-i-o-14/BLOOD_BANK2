@@ -17,6 +17,13 @@
                     <p class="text-gray-700 mb-4">{{ $campagne->description }}</p>
                 </div>
                 <div class="mt-2 text-sm text-gray-500">Date : {{ $campagne->date }}</div>
+                <div class="mt-4 flex gap-2">
+                    <form action="{{ route('campaigns.destroy', $campagne) }}" method="POST" onsubmit="return confirm('Confirmer la suppression de cette campagne ?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded">Supprimer</button>
+                    </form>
+                </div>
             </div>
         @endforeach
     </div>

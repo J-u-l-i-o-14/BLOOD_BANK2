@@ -63,12 +63,14 @@ class DonsController extends Controller
         // Validation et création du don dans donation_histories
         $validated = $request->validate([
             'donor_id' => 'required|integer|exists:donors,id',
-            'campaign_id' => 'nullable|integer|exists:campaigns,id',
-            'blood_bag_id' => 'nullable|integer|exists:blood_bags,id',
+            'campaign_id' => 'nullable|sometimes|integer|exists:campaigns,id',
+            'blood_bag_id' => 'required|integer|exists:blood_bags,id',
             'donated_at' => 'required|date',
             'volume' => 'required|numeric|min:1',
-            'notes' => 'nullable|string',
         ]);
+        if (empty($validated['campaign_id'])) {
+            unset($validated['campaign_id']);
+        }
         \App\Models\DonationHistory::create($validated);
         return redirect()->route('dons.create')->with('success', 'Don enregistré avec succès.');
     }
