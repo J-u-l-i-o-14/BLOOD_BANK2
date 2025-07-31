@@ -16,6 +16,31 @@
         </div>
     </div>
 
+    <!-- Campagnes de dons à venir -->
+    <section class="max-w-4xl mx-auto mt-8 mb-8 p-6 bg-white rounded-lg shadow">
+        <h2 class="text-xl font-bold text-center text-red-700 mb-4">Campagnes de dons à venir</h2>
+        <div class="flex flex-col gap-6">
+            @foreach($campaigns ?? [] as $campagne)
+                <div class="bg-gray-50 rounded-lg shadow border border-gray-200 flex flex-col md:flex-row items-stretch overflow-hidden">
+                    <div class="md:w-1/2 w-full flex items-center justify-center p-0 md:p-0">
+                        <img src="/images/campagne de dons de sang.avif" alt="Image campagne de dons de sang" class="rounded-none md:rounded-l-lg object-cover w-full h-48 md:h-full max-h-64">
+                    </div>
+                    <div class="md:w-1/2 w-full flex flex-col justify-between p-6">
+                        <div>
+                            <h3 class="text-2xl font-bold mb-2 text-red-700">{{ $campagne->title }}</h3>
+                            <p class="text-gray-700 mb-4">{{ $campagne->description }}</p>
+                        </div>
+                        <div class="mt-2 text-sm text-gray-500">Date : {{ $campagne->date ? \Carbon\Carbon::parse($campagne->date)->format('d/m/Y') : '-' }}</div>
+                        <div class="mt-1 text-sm text-gray-500">Lieu : {{ $campagne->location ?? '-' }}</div>
+                    </div>
+                </div>
+            @endforeach
+            @if(empty($campaigns) || count($campaigns) === 0)
+                <div class="text-center text-gray-500">Aucune campagne à venir.</div>
+            @endif
+        </div>
+    </section>
+    <!-- Fin campagnes de dons à venir -->
     <!-- Formulaire de recherche multicritère sang avancé -->
     <section class="max-w-3xl mx-auto mt-8 mb-8 p-6 bg-white rounded-lg shadow">
         <h2 class="text-xl font-bold text-center text-red-700 mb-4">Rechercher du sang disponible</h2>
